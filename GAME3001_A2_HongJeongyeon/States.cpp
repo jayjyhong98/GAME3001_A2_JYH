@@ -39,10 +39,11 @@ void GameState::Enter()
 		char key;
 		int x, y;
 		bool o, h;
+		int cost;
 		while (!inFile.eof())
 		{
-			inFile >> key >> x >> y >> o >> h;
-			m_tiles.emplace(key, new Tile({ x * 32, y * 32, 32, 32 }, { 0,0,32,32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("bground"), o, h));
+			inFile >> key >> x >> y >> o >> h >> cost;
+			m_tiles.emplace(key, new Tile({ x * 32, y * 32, 32, 32 }, { 0,0,32,32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("bground"), o, h, cost));
 		}
 	}
 	inFile.close();
@@ -58,6 +59,8 @@ void GameState::Enter()
 				m_level[row][col] = m_tiles[key]->Clone(); // Prototype design pattern used.
 				m_level[row][col]->GetDstP()->x = (float)(32 * col);
 				m_level[row][col]->GetDstP()->y = (float)(32 * row);
+				m_level[row][col]->setTileRowIdx(row);
+				m_level[row][col]->setTileColIdx(col);
 				// Instantiate the labels for each tile.
 				m_level[row][col]->m_lCost = new Label("ltype", m_level[row][col]->GetDstP()->x + 4, m_level[row][col]->GetDstP()->y + 18, " ", { 0,0,0,255 });
 				m_level[row][col]->m_lX = new Label("ltype", m_level[row][col]->GetDstP()->x + 18, m_level[row][col]->GetDstP()->y + 2, to_string(col).c_str(), { 0,0,0,255 });
