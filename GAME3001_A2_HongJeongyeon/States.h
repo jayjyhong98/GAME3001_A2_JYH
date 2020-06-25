@@ -41,6 +41,11 @@ private:
 	std::map<char, Tile*> m_tiles;
 	std::array<std::array<Tile*, COLS>, ROWS> m_level; // Fixed-size STL array of Tile pointers.
 	bool m_showCosts = false, m_hEuclid = true;
+	bool m_bDebug = false;
+	int m_iDebugStartRowIndex = -1;
+	int m_iDebugStartColIndex = -1;
+	int m_iDebugGoalRowIndex = -1;
+	int m_iDebugGoalColIndex = -1;
 
 public:
 	std::array<std::array<Tile*, COLS>, ROWS>& GetLevel() { return m_level; }

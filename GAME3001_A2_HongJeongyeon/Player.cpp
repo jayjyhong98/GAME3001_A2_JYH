@@ -1,7 +1,13 @@
 #include "Player.h"
 #include "CollisionManager.h"
 #include "EventManager.h"
+#include "PathManager.h"
+#include "Pathing.h"
+#include "StateManager.h"
+#include "States.h"
+#include "Vector2D.h"
 #define SPEED 2
+#define ELLIPSE 0.1
 
 Player::Player(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, int sstart, int smin, int smax, int nf)
 	:AnimatedSprite(s, d, r, t, sstart, smin, smax, nf), m_state(state::idle), m_dir(0) {}
@@ -57,6 +63,49 @@ void Player::Update()
 		break;
 	}
 	Animate();
+	if (m_bIsPlayerMoved == true)
+	{
+		MoveAlongPath();
+	}
+}
+
+void Player::MoveAlongPath()
+{
+	if (m_bReadyToMove == true)
+	{
+		m_bReadyToMove = false;
+		NextNodeIdx++;
+		if (NextNodeIdx < PAMA::getPath().size())
+		{
+			NextDstX = PAMA::getPath()[NextNodeIdx]->GetToNode()->x + 16;
+			NextDstY = PAMA::getPath()[NextNodeIdx]->GetToNode()->y + 16;
+
+			movingVelocityX = (NextDstX - (m_dst.x + (m_dst.w / 2)));
+			movingVelocityY = (NextDstY - (m_dst.y + (m_dst.h / 2)));
+
+			Vector2D vector(movingVelocityX, movingVelocityY);
+			movingVelocityX = movingVelocityX / vector.length();
+			movingVelocityY = movingVelocityY / vector.length();
+		}
+		else
+		{
+			m_bIsPlayerMoved = false;
+			m_bReadyToMove = true;
+			NextNodeIdx = -1;
+			PAMA::ClearPath();
+			return;
+		}
+	}
+	m_dst.x = m_dst.x + movingVelocityX * SPEED;
+	m_dst.y = m_dst.y + movingVelocityY * SPEED;
+
+	float PlayerDstX = (m_dst.x + (m_dst.w / 2));
+	float PlayerDstY = (m_dst.y + (m_dst.h / 2));
+
+	if (abs(PlayerDstX - NextDstX) <= 0.1 && abs(PlayerDstY - NextDstY) <= 0.1)
+	{
+		m_bReadyToMove = true;
+	}
 }
 
 void Player::Render()

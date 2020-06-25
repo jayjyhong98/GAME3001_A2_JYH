@@ -31,6 +31,7 @@ public:
 	int getTileColIdx() { return m_iTileColIdx; }
 	void setTileRowIdx(int rowidx);
 	void setTileColIdx(int colidx);
+	int getTileCost() { return m_iCost; }
 public:
 	PathNode* m_node;
 	Label *m_lCost, *m_lX, *m_lY;
