@@ -29,7 +29,7 @@ void GameState::Enter()
 	col.g = 255;
 	col.b = 255;
 	col.a = 255;
-	//SOMA::PlayMusic("bground", -1, 0);
+	SOMA::PlayMusic("bground", -1, 0);
 	m_explanation = new Label("ltype", 0, 0, "press H for Debug View / left-click for selecting starting Tile / right-click for selecting Goal Tile / F for finding Shortest Path / M for Moving", col);
 	m_pPlayer = new Player({ 0,0,32,32 }, { (float)(16) * 32, (float)(12) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("player"), 0, 0, 0, 4);
 	m_pBling = new Sprite({ 224,64,32,32 }, { (float)(16) * 32, (float)(4) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("bground"));
@@ -119,11 +119,13 @@ void GameState::Update()
 
 			if (EVMA::MousePressed(1))
 			{
+				SOMA::PlaySound("beep");
 				m_iDebugStartColIndex = xIdx;
 				m_iDebugStartRowIndex = yIdx;
 			}
 			else if (EVMA::MousePressed(3))
 			{
+				SOMA::PlaySound("beep");
 				m_iDebugGoalColIndex = xIdx;
 				m_iDebugGoalRowIndex = yIdx;
 				if (m_iDebugStartRowIndex != -1 && m_iDebugStartColIndex != -1)
@@ -184,6 +186,7 @@ void GameState::Update()
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_H))
 	{
+		SOMA::PlaySound("beep");
 		if (m_bDebug == false)
 		{
 			m_bDebug = true;
@@ -196,6 +199,7 @@ void GameState::Update()
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_F))
 	{
+		SOMA::PlaySound("beep");
 		for (int row = 0; row < ROWS; row++) // "This is where the fun begins."
 		{ // Update each node with the selected heuristic and set the text for debug mode.
 			for (int col = 0; col < COLS; col++)
@@ -226,6 +230,7 @@ void GameState::Update()
 	}
 	if (EVMA::KeyPressed(SDL_SCANCODE_M) && m_bDebug == false)
 	{
+		SOMA::PlaySound("beep");
 		m_pPlayer->setIsPlayerMoved(true);
 	}
 
@@ -334,7 +339,8 @@ void TitleState::Enter()
 	col.g = 255;
 	col.b = 255;
 	col.a = 255;
-	m_Label = new Label("ltype", 0, 0, "Jeongyeon Hong 101198653", col);
+	m_Label = new Label("ltype", 0, 0, "Jeongyeon Hong(jayjyhonh98) 101198653", col);
+	m_lLabel = new Label("ltype", 0, 15, "Juan De Gouveia 101203253", col);
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,400.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
 
 }
@@ -350,6 +356,7 @@ void TitleState::Update()
 void TitleState::Render()
 {
 	m_Label->Render();
+	m_lLabel->Render();
 	m_playBtn->Render();
 	//m_quitBtn->Render();
 }
@@ -357,6 +364,7 @@ void TitleState::Render()
 void TitleState::Exit()
 {
 	delete m_Label;
+	delete m_lLabel;
 	delete m_playBtn;
 	std::cout << "Exiting TitleState..." << endl;
 }

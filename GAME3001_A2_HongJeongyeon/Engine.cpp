@@ -47,7 +47,7 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/Tiles.png", "bground");
 	TEMA::RegisterTexture("Img/Maga.png", "player");
 	SOMA::Load("Aud/engines.wav", "engine", SOUND_SFX);
-	SOMA::Load("Aud/power.wav", "beep", SOUND_SFX);
+	SOMA::Load("Aud/jump.wav", "beep", SOUND_SFX);
 	SOMA::Load("Aud/Turtles.mp3", "bground", SOUND_MUSIC);
 	SOMA::SetSoundVolume(32, 0);
 	StateManager::PushState(new TitleState);

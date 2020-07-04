@@ -66,6 +66,7 @@ public:
 	void Exit();
 private:
 	Label* m_Label;
+	Label* m_lLabel;
 	Button* m_playBtn;
 	Button* m_quitBtn;
 
