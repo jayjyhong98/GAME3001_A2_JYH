@@ -122,6 +122,12 @@ void GameState::Update()
 				SOMA::PlaySound("beep");
 				m_iDebugStartColIndex = xIdx;
 				m_iDebugStartRowIndex = yIdx;
+				if (m_pBling->GetDstP()->x == (float)(xIdx * 32) && m_pBling->GetDstP()->y == (float)(yIdx * 32))
+				{
+					return;
+				}
+				m_pPlayer->GetDstP()->x = (float)(xIdx * 32);
+				m_pPlayer->GetDstP()->y = (float)(yIdx * 32);
 			}
 			else if (EVMA::MousePressed(3))
 			{
@@ -134,6 +140,12 @@ void GameState::Update()
 					PAMA::GetShortestPath(m_level[m_iDebugStartRowIndex][m_iDebugStartColIndex]->Node(),
 						m_level[m_iDebugGoalRowIndex][m_iDebugGoalColIndex]->Node());
 				}
+				if (m_pPlayer->GetDstP()->x == (float)(xIdx * 32) && m_pPlayer->GetDstP()->y == (float)(yIdx * 32))
+				{
+					return;
+				}
+				m_pBling->GetDstP()->x = (float)(xIdx * 32);
+				m_pBling->GetDstP()->y = (float)(yIdx * 32);
 			}
 		}
 		else
@@ -342,15 +354,13 @@ void TitleState::Enter()
 	m_Label = new Label("ltype", 0, 0, "Jeongyeon Hong(jayjyhonh98) 101198653", col);
 	m_lLabel = new Label("ltype", 0, 15, "Juan De Gouveia 101203253", col);
 	m_playBtn = new PlayButton({ 0,0,400,100 }, { 312.0f,400.0f,400.0f,100.0f }, Engine::Instance().GetRenderer(), TEMA::GetTexture("play"));
-
+	SOMA::PlaySound("beep");
 }
 
 void TitleState::Update()
 {
 	if (m_playBtn->Update() == 1)
 		return;
-	//if (m_quitBtn->Update() == 1)
-		//return;
 }
 
 void TitleState::Render()
@@ -358,7 +368,6 @@ void TitleState::Render()
 	m_Label->Render();
 	m_lLabel->Render();
 	m_playBtn->Render();
-	//m_quitBtn->Render();
 }
 
 void TitleState::Exit()
