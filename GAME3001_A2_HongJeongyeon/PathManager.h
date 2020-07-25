@@ -8,6 +8,7 @@ class PathManager
 {
 public:
 	static void GetShortestPath(PathNode* start, PathNode* goal);
+	static void GetShortestPath(PathNode* start, PathNode* goal, std::vector<PathConnection*>& EnemyPath);
 	static void GetEuclidPath(PathNode* start, PathNode* goal);
 	static void GetManhatPath(PathNode* start, PathNode* goal);
 	static NodeRecord* GetSmallestNode();

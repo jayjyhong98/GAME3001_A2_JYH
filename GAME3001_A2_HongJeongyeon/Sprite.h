@@ -10,7 +10,7 @@ class Sprite // Inline class.
 public: // Inherited and public.
 	Sprite(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t)
 		:m_src(s), m_dst(d), m_pRend(r), m_pText(t), m_angle(0.0) {}
-	virtual void Render() {	SDL_RenderCopyExF(m_pRend, m_pText, GetSrcP(), GetDstP(), m_angle, 0, SDL_FLIP_NONE); }
+	virtual void Render() { SDL_RenderCopyExF(m_pRend, m_pText, GetSrcP(), GetDstP(), m_angle, 0, SDL_FLIP_NONE); }
 	SDL_Rect* GetSrcP() { return &m_src; }
 	SDL_FRect* GetDstP() { return &m_dst; }
 	double& GetAngle() { return m_angle; }
@@ -39,12 +39,20 @@ public:
 		}
 		m_src.x = m_src.w * m_sprite;
 	}
+
+	int getHealth() { return m_health; }
+	int getHealthMax() { return m_healthMax; }
+
 protected:
 	int m_sprite,		// The current sprite index in row.
 		m_spriteMin,	// The sprite index to start animation on.
 		m_spriteMax,	// The sprite index to end animation on.
 		m_frame = 0,	// Frame counter.
-		m_frameMax;		// Number of frames to display each sprite.
+		m_frameMax,		// Number of frames to display each sprite.
+		m_health = 0,
+		m_healthMax;
+
+	bool m_bBeAlived = true;
 };
 
 /* Note: A lot of animation methods use a modulus operation to wrap the frames

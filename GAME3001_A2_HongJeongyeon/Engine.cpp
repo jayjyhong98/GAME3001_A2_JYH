@@ -15,7 +15,7 @@
 #define FPS 60
 using namespace std;
 
-Engine::Engine():m_running(false){ cout << "Engine class constructed!" << endl; }
+Engine::Engine() :m_running(false) { cout << "Engine class constructed!" << endl; }
 
 bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, int flags)
 {
@@ -42,10 +42,15 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	// Example specific initialization.
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2"); // Call this before any textures are created.
 	srand((unsigned)time(NULL));
-	FOMA::RegisterFont("Img/LTYPE.TTF", "ltype", 12);
+	FOMA::RegisterFont("Img/LTYPE.TTF", "ltype", 20);
+	FOMA::RegisterFont("Img/font.TTF", "font", 35);
 	TEMA::RegisterTexture("Img/play.png", "play");
 	TEMA::RegisterTexture("Img/Tiles.png", "bground");
 	TEMA::RegisterTexture("Img/Maga.png", "player");
+	TEMA::RegisterTexture("Img/Idle (1).png", "enemy");
+	TEMA::RegisterTexture("Img/Dead (12).png", "deadenemycount");
+	TEMA::RegisterTexture("Img/health.png", "health");
+	TEMA::RegisterTexture("Img/health1.png", "health1");
 	SOMA::Load("Aud/engines.wav", "engine", SOUND_SFX);
 	SOMA::Load("Aud/jump.wav", "beep", SOUND_SFX);
 	SOMA::Load("Aud/Turtles.mp3", "bground", SOUND_MUSIC);
@@ -81,7 +86,7 @@ void Engine::Update()
 	StateManager::Update();
 }
 
-void Engine::Render() 
+void Engine::Render()
 {
 	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer); // Clear the screen with the draw color.
@@ -109,7 +114,7 @@ void Engine::Clean()
 int Engine::Run()
 {
 	if (m_running) // What does this do and what can it prevent?
-		return -1; 
+		return -1;
 	if (Init("GAME1017 Engine Template", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0) == false)
 		return 1;
 	while (m_running) // Main engine loop.

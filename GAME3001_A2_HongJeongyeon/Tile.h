@@ -34,7 +34,7 @@ public:
 	int getTileCost() { return m_iCost; }
 public:
 	PathNode* m_node;
-	Label *m_lCost, *m_lX, *m_lY;
+	Label* m_lCost, * m_lX, * m_lY;
 private:
 	bool m_obstacle, m_hazard;
 	int m_iTileRowIdx, m_iTileColIdx;

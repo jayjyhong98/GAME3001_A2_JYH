@@ -12,7 +12,7 @@ void StateManager::Render()
 		s_states.back()->Render();
 }
 
-void StateManager::PushState(State * pState)
+void StateManager::PushState(State* pState)
 {
 	s_states.push_back(pState); // push_back() is a method of the vector type.
 	s_states.back()->Enter();
@@ -54,6 +54,6 @@ void StateManager::Quit()
 	}
 }
 
-std::vector<State*>& StateManager::GetStates(){	return s_states; }
+std::vector<State*>& StateManager::GetStates() { return s_states; }
 
 std::vector<State*> StateManager::s_states;
