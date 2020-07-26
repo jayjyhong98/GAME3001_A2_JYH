@@ -27,8 +27,8 @@ void StateManager::ChangeState(State* pState)
 		s_states.back() = nullptr; // Nullifying pointer to the de-allocated state.
 		s_states.pop_back(); // Removes the now-null pointer from the vector.
 	}
-	pState->Enter();
 	s_states.push_back(pState);
+	pState->Enter();
 }
 
 void StateManager::PopState()

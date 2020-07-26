@@ -34,24 +34,7 @@ void GameState::Enter()
 	col.b = 255;
 	col.a = 255;
 	SOMA::PlayMusic("bground", -1, 0);
-	SOMA::SetMusicVolume(15);
-	//m_explanation = new Label("ltype", 0, 0, "press H for Debug View / left-click for selecting starting Tile / right-click for selecting Goal Tile / F for finding Shortest Path / M for Moving", col);
-	m_pPlayer = new Player({ 0,0,32,32 }, { (float)(16) * 32, (float)(12) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("player"), 0, 0, 0, 4);
-	//m_pBling = new Sprite({ 224,64,32,32 }, { (float)(16) * 32, (float)(4) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("bground"));
-	//m_pEnemy
-	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(16) * 32, (float)(4) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 1));
-	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(5) * 32, (float)(12) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 1));
-	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(25) * 32, (float)(9) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 1));
-	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(17) * 32, (float)(15) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 1));
-	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(13) * 32, (float)(20) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 1));
-
-	m_iEnemyCount = s_enemies.size();
-
-	//Enemy UI
-	m_pEnemyDeadUI = new Sprite({ 0, 0, 480, 700 }, { 0, 0, 40, 40 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("deadenemycount"));
-	m_pEnemyAliveUI = new Sprite({ 0, 0, 430, 519 }, { 0, 0, 40, 40 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"));
-	words[0] = new Label("ltype", 40, 10, to_string((int)(m_iEnemyCount)).c_str(), { 255,255,255,0 });
-	words[1] = new Label("ltype", 289, 4, to_string((int)(m_iEnemyDeadCount)).c_str(), { 255,255,255,0 });
+	SOMA::SetMusicVolume(5);
 	ifstream inFile("Dat/Tiledata.txt");
 	if (inFile.is_open())
 	{ // Create map of Tile prototypes.
@@ -119,6 +102,24 @@ void GameState::Enter()
 					MAMA::Distance(m_level[row][col]->Node()->x, m_level[row][col + 1]->Node()->x, m_level[row][col]->Node()->y, m_level[row][col + 1]->Node()->y)));
 		}
 	}
+	//m_explanation = new Label("ltype", 0, 0, "press H for Debug View / left-click for selecting starting Tile / right-click for selecting Goal Tile / F for finding Shortest Path / M for Moving", col);
+	m_pPlayer = new Player({ 0,0,567,556 }, { (float)(16) * 32, (float)(12) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("player1"), 0, 0, 0, 4);
+	//m_pBling = new Sprite({ 224,64,32,32 }, { (float)(16) * 32, (float)(4) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("bground"));
+	//m_pEnemy
+	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(16) * 32, (float)(4) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 12));
+	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(5) * 32, (float)(12) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 12));
+	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(25) * 32, (float)(9) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 12));
+	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(17) * 32, (float)(15) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 12));
+	s_enemies.push_back(new Enemy({ 0,0,430,519 }, { (float)(13) * 32, (float)(20) * 32, 32, 32 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemy"), 0, 0, 0, 12));
+
+	m_iEnemyCount = s_enemies.size();
+
+	//Enemy UI
+	m_pEnemyDeadUI = new Sprite({ 0, 0, 629, 526 }, { 70, 10, 60, 60 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("deadenemycount"));
+	m_pEnemyAliveUI = new Sprite({ 0, 0, 430, 519 }, { 0, 20, 40, 40 }, Engine::Instance().GetRenderer(), TEMA::GetTexture("enemycount"));
+	words[0] = new Label("ltype", 40, 30, to_string((int)(m_iEnemyCount)).c_str(), { 255,255,255,0 });
+	words[1] = new Label("ltype", 140, 30, to_string((int)(m_iEnemyDeadCount)).c_str(), { 255,255,255,0 });
+	
 }
 
 void GameState::Update()
@@ -142,11 +143,11 @@ void GameState::Update()
 		m_hEuclid = !m_hEuclid;
 		std::cout << "Setting " << (m_hEuclid ? "Euclidian" : "Manhattan") << " heuristic..." << std::endl;
 	}
-	if (EVMA::MousePressed(1)) // If user has clicked.
-	{
-
-		m_pPlayer->Melee();
-		SOMA::PlaySound("beep");
+	//if (EVMA::MousePressed(1)) // If user has clicked.
+	//{
+	//	m_pPlayer->Melee();
+	//	m_pPlayer->ChangeState(Player::melee);
+	//	SOMA::PlaySound("beep");
 		//if (m_bDebug == true)
 		//{
 		//	int xIdx = (EVMA::GetMousePos().x / 32);
@@ -241,11 +242,12 @@ void GameState::Update()
 		//	}
 		//}
 
-	}
-	if (EVMA::MousePressed(3))
+	//}
+	/*if (EVMA::MousePressed(3))
 	{
+		m_pPlayer->ChangeState(Player::firing);
 		m_pPlayer->createProjectile();
-	}
+	}*/
 
 
 	// H KEY section
@@ -280,6 +282,7 @@ void GameState::Update()
 	{
 		if (EVMA::KeyPressed(SDL_SCANCODE_K))
 		{
+			SOMA::PlaySound("zombie", 1);
 			for (int i = 0; i < s_enemies.size(); ++i)
 			{
 				s_enemies[i]->setEnemyHealth(s_enemies[i]->getEnemyHealth() - 10);
@@ -308,6 +311,11 @@ void GameState::Update()
 			if (m_bPatrol)
 			{
 				std::cout << "Debug Patrol Mode On" << std::endl;
+				SOMA::PlaySound("walk", 1);
+				for (int i = 0; i < s_enemies.size(); ++i)
+				{
+					s_enemies[i]->ChangeState(Enemy::patrol);
+				}
 			}
 			else if (!m_bPatrol)
 			{
@@ -323,42 +331,42 @@ void GameState::Update()
 	}
 
 
-	if (EVMA::KeyPressed(SDL_SCANCODE_F))
-	{
-		SOMA::PlaySound("beep");
-		for (int row = 0; row < ROWS; row++) // "This is where the fun begins."
-		{ // Update each node with the selected heuristic and set the text for debug mode.
-			for (int col = 0; col < COLS; col++)
-			{
-				if (m_level[row][col]->Node() == nullptr)
-					continue;
-				m_level[row][col]->Node()->SetH(PAMA::HEuclid(m_level[row][col]->Node(), m_level[(int)(m_pBling->GetDstP()->y / 32)][(int)(m_pBling->GetDstP()->x / 32)]->Node()));
-				m_level[row][col]->m_lCost->SetText(to_string((int)(m_level[row][col]->Node()->H())).c_str());
-			}
-		}
-		//Now we can calculate the path. Note: I am not returning a path again, only generating one to be rendered.
-		PAMA::GetShortestPath(m_level[(int)(m_pPlayer->GetDstP()->y / 32)][(int)(m_pPlayer->GetDstP()->x / 32)]->Node(),
-			m_level[(int)(m_pBling->GetDstP()->y / 32)][(int)(m_pBling->GetDstP()->x / 32)]->Node());
+	//if (EVMA::KeyPressed(SDL_SCANCODE_F))
+	//{
+	//	SOMA::PlaySound("beep");
+	//	for (int row = 0; row < ROWS; row++) // "This is where the fun begins."
+	//	{ // Update each node with the selected heuristic and set the text for debug mode.
+	//		for (int col = 0; col < COLS; col++)
+	//		{
+	//			if (m_level[row][col]->Node() == nullptr)
+	//				continue;
+	//			m_level[row][col]->Node()->SetH(PAMA::HEuclid(m_level[row][col]->Node(), m_level[(int)(m_pBling->GetDstP()->y / 32)][(int)(m_pBling->GetDstP()->x / 32)]->Node()));
+	//			m_level[row][col]->m_lCost->SetText(to_string((int)(m_level[row][col]->Node()->H())).c_str());
+	//		}
+	//	}
+	//	//Now we can calculate the path. Note: I am not returning a path again, only generating one to be rendered.
+	//	PAMA::GetShortestPath(m_level[(int)(m_pPlayer->GetDstP()->y / 32)][(int)(m_pPlayer->GetDstP()->x / 32)]->Node(),
+	//		m_level[(int)(m_pBling->GetDstP()->y / 32)][(int)(m_pBling->GetDstP()->x / 32)]->Node());
 
-		for (int row = 0; row < ROWS; row++) // "This is where the fun begins."
-		{ // Update each node with the selected heuristic and set the text for debug mode.
-			for (int col = 0; col < COLS; col++)
-			{
-				if (m_level[row][col]->Node() == nullptr)
-					continue;
-				m_level[row][col]->Node()->SetH(PAMA::HManhat(m_level[row][col]->Node(), m_level[(int)(m_pBling->GetDstP()->y / 32)][(int)(m_pBling->GetDstP()->x / 32)]->Node()));
-				m_level[row][col]->m_lCost->SetText(to_string((int)(m_level[row][col]->Node()->H())).c_str());
-			}
-		}
-		//Now we can calculate the path. Note: I am not returning a path again, only generating one to be rendered.
-		PAMA::GetShortestPath(m_level[(int)(m_pPlayer->GetDstP()->y / 32)][(int)(m_pPlayer->GetDstP()->x / 32)]->Node(),
-			m_level[(int)(m_pBling->GetDstP()->y / 32)][(int)(m_pBling->GetDstP()->x / 32)]->Node());
-	}
-	if (EVMA::KeyPressed(SDL_SCANCODE_M) && m_bDebug == false)
-	{
-		SOMA::PlaySound("beep");
-		m_pPlayer->setIsPlayerMoved(true);
-	}
+	//	for (int row = 0; row < ROWS; row++) // "This is where the fun begins."
+	//	{ // Update each node with the selected heuristic and set the text for debug mode.
+	//		for (int col = 0; col < COLS; col++)
+	//		{
+	//			if (m_level[row][col]->Node() == nullptr)
+	//				continue;
+	//			m_level[row][col]->Node()->SetH(PAMA::HManhat(m_level[row][col]->Node(), m_level[(int)(m_pBling->GetDstP()->y / 32)][(int)(m_pBling->GetDstP()->x / 32)]->Node()));
+	//			m_level[row][col]->m_lCost->SetText(to_string((int)(m_level[row][col]->Node()->H())).c_str());
+	//		}
+	//	}
+	//	//Now we can calculate the path. Note: I am not returning a path again, only generating one to be rendered.
+	//	PAMA::GetShortestPath(m_level[(int)(m_pPlayer->GetDstP()->y / 32)][(int)(m_pPlayer->GetDstP()->x / 32)]->Node(),
+	//		m_level[(int)(m_pBling->GetDstP()->y / 32)][(int)(m_pBling->GetDstP()->x / 32)]->Node());
+	//}
+	//if (EVMA::KeyPressed(SDL_SCANCODE_M) && m_bDebug == false)
+	//{
+	//	SOMA::PlaySound("beep");
+	//	m_pPlayer->setIsPlayerMoved(true);
+	//}
 
 }
 

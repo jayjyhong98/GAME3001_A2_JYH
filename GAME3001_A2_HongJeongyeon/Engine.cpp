@@ -19,6 +19,7 @@ Engine::Engine() :m_running(false) { cout << "Engine class constructed!" << endl
 
 bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, int flags)
 {
+	srand(time(NULL));
 	cout << "Initializing game..." << endl;
 	// Attempt to initialize SDL.
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
@@ -47,14 +48,22 @@ bool Engine::Init(const char* title, int xpos, int ypos, int width, int height, 
 	TEMA::RegisterTexture("Img/play.png", "play");
 	TEMA::RegisterTexture("Img/Tiles.png", "bground");
 	TEMA::RegisterTexture("Img/Maga.png", "player");
-	TEMA::RegisterTexture("Img/Idle (1).png", "enemy");
+	TEMA::RegisterTexture("Img/enemy.png", "enemy");
+	TEMA::RegisterTexture("Img/player.png", "player1");
+	TEMA::RegisterTexture("Img/firing.png", "bullet");
+	TEMA::RegisterTexture("Img/projectile.png", "projectile");
+	TEMA::RegisterTexture("Img/Idle (1).png", "enemycount");
 	TEMA::RegisterTexture("Img/Dead (12).png", "deadenemycount");
 	TEMA::RegisterTexture("Img/health.png", "health");
 	TEMA::RegisterTexture("Img/health1.png", "health1");
 	SOMA::Load("Aud/engines.wav", "engine", SOUND_SFX);
 	SOMA::Load("Aud/jump.wav", "beep", SOUND_SFX);
 	SOMA::Load("Aud/Turtles.mp3", "bground", SOUND_MUSIC);
-	SOMA::SetSoundVolume(32, 0);
+	SOMA::Load("Aud/boom.wav", "melee", SOUND_SFX);
+	SOMA::Load("Aud/walk.wav", "walk", SOUND_SFX);
+	SOMA::Load("Aud/zombie.wav", "zombie", SOUND_SFX);
+	SOMA::Load("Aud/projectile.wav", "projectile", SOUND_SFX);
+	SOMA::SetSoundVolume(50, -1);
 	StateManager::PushState(new TitleState);
 	// Final engine initialization calls.
 	m_fps = (Uint32)round((1 / (double)FPS) * 1000); // Sets FPS in milliseconds and rounds.

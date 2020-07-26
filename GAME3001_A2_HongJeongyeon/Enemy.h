@@ -4,12 +4,18 @@
 
 #include "Sprite.h"
 #include <vector>
+#include "glm/vec2.hpp"
 
 class Projectile;
 class HealthBar;
+class PathConnection;
+class Tile;
 
 class Enemy : public AnimatedSprite
 {
+public:
+	enum state { idle, patrol, death, damage } m_state;
+	void ChangeState(state s);
 public:
 	Enemy(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, int sstart, int smin, int smax, int nf);
 	//void MoveAlongPath();
@@ -25,7 +31,6 @@ public:
 	int getEnemyHealth() { return m_health; }
 	void setEnemyHealth(int h) { m_health = h; }
 private:
-	enum state { idle } m_state;
 	bool m_dir;
 	bool m_bIsEnemyMoved = false;
 	bool m_bReadyToMove = true;
@@ -33,17 +38,13 @@ private:
 	int NextNodeIdx = -1;
 	int NextDstX = 0;
 	int NextDstY = 0;
-	float movingVelocityX = 0;
-	float movingVelocityY = 0;
-	int m_iDebugStartRowIndex = -1;
-	int m_iDebugStartColIndex = -1;
-	int m_iDebugGoalRowIndex = -1;
-	int m_iDebugGoalColIndex = -1;
+	int m_iSpriteY = 0;
+	glm::vec2 m_vDirection;
 
 	void SetState(int s);
 	std::vector<Projectile*> m_vEProjectiles;
-	/*std::vector<PathConnection*> m_vEnemyPath;
-	std::vector<Tile*> m_vPatrolTile;*/
+	std::vector<PathConnection*> m_vEnemyPath;
+	std::vector<Tile*> m_vPatrolTile;
 	HealthBar* m_eHealthbar;
 
 };

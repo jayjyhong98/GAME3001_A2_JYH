@@ -11,6 +11,9 @@ class HealthBar;
 class Player : public AnimatedSprite
 {
 public:
+	enum state { idle, running, melee, firing } m_state;
+	void ChangeState(state s);
+public:
 	Player(SDL_Rect s, SDL_FRect d, SDL_Renderer* r, SDL_Texture* t, int sstart, int smin, int smax, int nf);
 	void MoveAlongPath();
 	bool getIsPlayerMoved() { return m_bIsPlayerMoved; }
@@ -21,7 +24,6 @@ public:
 	void createProjectile();
 	std::vector<Projectile*>& getProjectile() { return m_vPProjectiles; }
 private:
-	enum state { idle, running } m_state;
 	bool m_dir;
 	bool m_bIsPlayerMoved = false;
 	bool m_bReadyToMove = true;
@@ -29,6 +31,7 @@ private:
 	int NextDstX = 0;
 	int NextDstY = 0;
 	int m_distance;
+	int m_iSpriteY = 0;
 	float movingVelocityX = 0;
 	float movingVelocityY = 0;
 	bool m_facingRight = true;
